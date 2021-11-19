@@ -10,14 +10,18 @@ populateTextarea();
 refs.form.addEventListener('submit', evt => {
     evt.preventDefault();
     
-  const formData = new FormData(refs.form);
-    formData.forEach(value, name =>
-    {
-        console.log(value, name);
-    });
+  const savedValue = localStorage.getItem("feedback-form-state");
+  if (savedValue) {
+  console.log(savedValue)
+}
+
+   evt.currentTarget.reset();
+  localStorage.removeItem("feedback-form-state");
 });
 
-refs.form.addEventListener('change', throttle(evt => {
+
+
+refs.form.addEventListener('input', throttle(evt => {
   let getValue = localStorage.getItem('feedback-form-state');
   getValue = getValue ? JSON.parse(getValue) : {};
   getValue[evt.target.name] = evt.target.value;
@@ -35,12 +39,4 @@ function populateTextarea() {
     });
   }
 }
-
-
-refs.form.addEventListener('submit', evt => {
-  evt.preventDefault();
-  
-  evt.currentTarget.reset();
-  localStorage.removeItem("feedback-form-state");
-})
 
